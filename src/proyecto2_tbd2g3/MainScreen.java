@@ -4,6 +4,7 @@
  */
 package proyecto2_tbd2g3;
 
+import java.awt.Color;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -747,10 +748,30 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btn_probarConOrigenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConOrigenMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
+        ConexionMySQL connect= new ConexionMySQL();
+        if(connect.conectar(tf_InstanciaOrigen.getText(), tf_UserOrigen.getText(), tf_PassOrigen.getText(), tf_PuertoOrigen.getText(), tf_DBNameOrigen.getText())==null){
+            lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
+            lbl_resultadoConexion1.setForeground(Color.red);
+        }
+        else{
+            lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+            lbl_resultadoConexion1.setForeground(Color.green);
+            lbl_resultadoConexion1.setVisible(true);
+        }
     }//GEN-LAST:event_btn_probarConOrigenMouseClicked
 
     private void btn_probarConDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConDestinoMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
+        ConexionMySQL connect= new ConexionMySQL();
+        if(connect.conectar(tf_InstanciaDestino.getText(), tf_UserDestino.getText(), tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText())==null){
+            lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
+            lbl_resultadoConexion2.setForeground(Color.red);
+        }
+        else{
+            lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
+            lbl_resultadoConexion2.setForeground(Color.green);
+            lbl_resultadoConexion2.setVisible(true);
+        }
     }//GEN-LAST:event_btn_probarConDestinoMouseClicked
 
     /**
