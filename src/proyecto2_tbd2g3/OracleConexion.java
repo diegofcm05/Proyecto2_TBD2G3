@@ -9,10 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/**
- *
- * @author dfcm9
- */
 public class OracleConexion {
     
     private String url = "jdbc:oracle:thin:@localhost:1521:XE"; // Reemplaza con tu URL de conexión

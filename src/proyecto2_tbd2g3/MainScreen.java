@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class MainScreen extends javax.swing.JFrame {
     
+    private DatabaseReplicator replicator;
     boolean Conexion1Y = false; //Variable que indica si la conexion de la base de datos origen fue exitosa
     boolean Conexion2Y = false; //Variable que indica si la conexion de la base de datos destino fue exitosa
     
@@ -25,7 +26,6 @@ public class MainScreen extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
     }
 
     /**
@@ -729,48 +729,56 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarMouseClicked
 
     private void btn_moveOrToDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moveOrToDeMouseClicked
-        if (!btn_moveOrToDe.isEnabled()){
-            JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
-            //Lo que haria cuando estuviera habilitado.
+        if (!Conexion1Y || !Conexion2Y) {
+            JOptionPane.showMessageDialog(this, "Conecte ambas bases de datos antes de replicar.");
+        } else {
+            try {
+                replicator.replicateOriginToDestination();
+                JOptionPane.showMessageDialog(this, "Replicación de Origen a Destino completada con éxito.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error durante la replicación: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_btn_moveOrToDeMouseClicked
 
     private void btn_moveDeToOrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moveDeToOrMouseClicked
-        if (!btn_moveDeToOr.isEnabled()){
-            JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
-            //Lo que haria cuando estuviera habilitado.
+        if (!Conexion1Y || !Conexion2Y) {
+            JOptionPane.showMessageDialog(this, "Conecte ambas bases de datos antes de replicar.");
+        } else {
+            try {
+                replicator.replicateDestinationToOrigin();
+                JOptionPane.showMessageDialog(this, "Replicación de Destino a Origen completada con éxito.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error durante la replicación: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_btn_moveDeToOrMouseClicked
 
     private void btn_probarConOrigenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConOrigenMouseClicked
-        // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        ConexionMySQL connect= new ConexionMySQL();
-        if(connect.conectar(tf_InstanciaOrigen.getText(), tf_UserOrigen.getText(), tf_PassOrigen.getText(), tf_PuertoOrigen.getText(), tf_DBNameOrigen.getText())==null){
-            lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
-            lbl_resultadoConexion1.setForeground(Color.red);
-        }
-        else{
-            lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+        try {
+            replicator.connectToOrigin(tf_InstanciaOrigen.getText(), tf_UserOrigen.getText(),
+                                       tf_PassOrigen.getText(), tf_PuertoOrigen.getText(), tf_DBNameOrigen.getText());
+            Conexion1Y = true;
+            lbl_resultadoConexion1.setText("¡Conexión Exitosa!");
             lbl_resultadoConexion1.setForeground(Color.green);
-            lbl_resultadoConexion1.setVisible(true);
+        } catch (Exception e) {
+            Conexion1Y = false;
+            lbl_resultadoConexion1.setText("Error: " + e.getMessage());
+            lbl_resultadoConexion1.setForeground(Color.red);
         }
     }//GEN-LAST:event_btn_probarConOrigenMouseClicked
 
     private void btn_probarConDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConDestinoMouseClicked
-        // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        ConexionMySQL connect= new ConexionMySQL();
-        if(connect.conectar(tf_InstanciaDestino.getText(), tf_UserDestino.getText(), tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText())==null){
-            lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
-            lbl_resultadoConexion2.setForeground(Color.red);
-        }
-        else{
-            lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
+        try {
+            replicator.connectToDestination(tf_InstanciaDestino.getText(), tf_UserDestino.getText(),
+                                            tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText());
+            Conexion2Y = true;
+            lbl_resultadoConexion2.setText("¡Conexión Exitosa!");
             lbl_resultadoConexion2.setForeground(Color.green);
-            lbl_resultadoConexion2.setVisible(true);
+        } catch (Exception e) {
+            Conexion2Y = false;
+            lbl_resultadoConexion2.setText("Error: " + e.getMessage());
+            lbl_resultadoConexion2.setForeground(Color.red);
         }
     }//GEN-LAST:event_btn_probarConDestinoMouseClicked
 

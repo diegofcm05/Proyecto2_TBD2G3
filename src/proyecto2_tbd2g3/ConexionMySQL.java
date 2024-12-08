@@ -9,10 +9,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Junior
- */
 public class ConexionMySQL {
     static String url="jdbc:mysql://";
     static String urlOG="jdbc:mysql://tbd2g3.c1ci2a0qwno2.us-east-1.rds.amazonaws.com:3306/tbd2g3";
