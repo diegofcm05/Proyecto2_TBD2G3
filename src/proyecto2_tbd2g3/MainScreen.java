@@ -5,6 +5,7 @@
 package proyecto2_tbd2g3;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -21,6 +22,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     boolean Conexion1Y = false; //Variable que indica si la conexion de la base de datos origen fue exitosa
     boolean Conexion2Y = false; //Variable que indica si la conexion de la base de datos destino fue exitosa
+    OracleConexion OC;
+    ConexionMySQL MC;
 
     //Credenciales base de datos origen
     String originurl = "";
@@ -757,7 +760,12 @@ public class MainScreen extends javax.swing.JFrame {
         if (!btn_guardar.isEnabled()) {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
         } else {
-            //Lo que haria cuando estuviera habilitado.
+            ArrayList<String> lista = new ArrayList<>();
+            ListModel<String> modelo = jl_tablasDbDe.getModel();
+            for(int i = 0; i < modelo.getSize(); i++){
+                lista.add(modelo.getElementAt(i));
+            }//agarrar la lista de los nombres de las tablas a replicar
+            
         }
     }//GEN-LAST:event_btn_guardarMouseClicked
 
@@ -813,7 +821,7 @@ public class MainScreen extends javax.swing.JFrame {
             originuser = tf_UserOrigen.getText();
             originpass = tf_PassOrigen.getText();
 
-            OracleConexion OC = new OracleConexion();
+            OC = new OracleConexion();
             Conexion1Y = OC.Conectar(originurl, originuser, originpass, originport);
 
             if (Conexion1Y) {
@@ -860,7 +868,7 @@ public class MainScreen extends javax.swing.JFrame {
             originuser = tf_UserOrigen.getText();
             originpass = tf_PassOrigen.getText();
 
-            ConexionMySQL MC = new ConexionMySQL();
+            MC = new ConexionMySQL();
             Conexion1Y = MC.conectar(originurl, originuser, originpass, originport, origindbname);
 
             if (Conexion1Y) {
