@@ -762,10 +762,22 @@ public class MainScreen extends javax.swing.JFrame {
         } else {
             ArrayList<String> lista = new ArrayList<>();
             ListModel<String> modelo = jl_tablasDbDe.getModel();
-            for(int i = 0; i < modelo.getSize(); i++){
+            for (int i = 0; i < modelo.getSize(); i++) {
                 lista.add(modelo.getElementAt(i));
             }//agarrar la lista de los nombres de las tablas a replicar
-            
+            //Validación de que si la tabla ya existe va aqui
+            if (radio_ORACLEOrigin.isSelected()) {
+                for (String string : lista) {
+                    String ddlResult = OC.Ingreso(string);
+                    // Adaptar el DDL para MySQL
+                    ddlResult = MC.adaptDDLForMySQL(ddlResult);  // Adaptamos el DDL de Oracle a MySQL
+                    System.out.println("DDL adaptado para MySQL: \n" + ddlResult);
+                    // Ejecutar el DDL en MySQL
+                    MC.createTableInMySQL(ddlResult);
+                }
+            } else if (radio_MYSQLOrigin.isSelected()) {
+                //Lo mismo, pero para MySQL Workbench
+            }
         }
     }//GEN-LAST:event_btn_guardarMouseClicked
 
@@ -845,11 +857,10 @@ public class MainScreen extends javax.swing.JFrame {
                     }
                     jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
                 }
-                
+
                 DefaultListModel<String> listModel2 = new DefaultListModel<>();
                 jl_tablasDbDe.setModel(listModel2);
-                
-                
+
                 System.out.println("Modelo de jl_tablasDbOr: " + jl_tablasDbOr.getModel().getClass());
                 System.out.println("Modelo de jl_tablasDbDe: " + jl_tablasDbDe.getModel().getClass());
 
@@ -924,8 +935,6 @@ public class MainScreen extends javax.swing.JFrame {
                 lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
                 lbl_resultadoConexion1.setForeground(Color.green);
                 lbl_resultadoConexion1.setVisible(true);
-
-                
 
             } else {
                 lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");

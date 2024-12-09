@@ -111,4 +111,31 @@ public class ConexionMySQL {
         }
         return bien && good;
     }
+    
+    // Método para adaptar el DDL de Oracle a MySQL
+    public String adaptDDLForMySQL(String ddl) {
+        // Aquí se pueden agregar más adaptaciones si es necesario
+        // Ejemplo de reemplazo de tipos de datos específicos de Oracle a MySQL
+        ddl = ddl.replace("NUMBER", "INT");  // Reemplazar NUMBER por INT
+        ddl = ddl.replace("VARCHAR2", "VARCHAR");  // Reemplazar VARCHAR2 por VARCHAR
+        ddl = ddl.replace("DATE", "DATETIME");  // Reemplazar DATE por DATETIME (si es necesario)
+
+        // Agregar cualquier otro reemplazo o ajuste de sintaxis aquí
+        return ddl;
+    }
+
+    // Método para crear la tabla en MySQL
+    public void createTableInMySQL(String ddl) {
+        try {
+            Statement stmt = connection.createStatement();
+
+            // Ejecutar el DDL adaptado para MySQL
+            stmt.executeUpdate(ddl);  // Ejecutar el DDL en MySQL
+            System.out.println("Tabla creada en MySQL exitosamente.");
+
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
