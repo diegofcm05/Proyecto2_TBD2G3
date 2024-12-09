@@ -61,4 +61,52 @@ public class ConexionMySQL {
         }
         return tableNames;
     }
+    public static void filterGeneralLog(String jdbcUrl, String username, String password) {
+        String query = "SELECT event_time, user_host, command_type, argument " +
+                       "FROM mysql.general_log " +
+                       "WHERE command_type = 'Query' " +
+                       "ORDER BY event_time DESC";
+        
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            System.out.println("Filtered General Log Entries:");
+            System.out.println("---------------------------------------");
+
+            while (rs.next()) {
+                String eventTime = rs.getString("event_time");
+                String userHost = rs.getString("user_host");
+                String commandType = rs.getString("command_type");
+                String argument = rs.getString("argument");
+
+                // Filtrar consultas ocultas o internas
+                if (isInternalQuery(argument)) {
+                    System.out.println("Time: " + eventTime);
+                    System.out.println("User: " + userHost);
+                    System.out.println("Query: " + argument);
+                    System.out.println("---------------------------------------");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para identificar consultas internas que queremos ignorar
+    private static boolean isInternalQuery(String argument) {
+        boolean bien=false;
+        boolean good=false;
+        if(argument.startsWith("INSERT") || 
+               argument.startsWith("DELETE") || 
+               argument.startsWith("CREATE") || 
+               argument.startsWith("UPDATE")){
+            bien=true;
+        }
+        if(!argument.startsWith("INSERT INTO mysql.rds")&&!argument.startsWith("DELETE FROM mysql.rds")){
+            good=true;
+        }
+        return bien && good;
+    }
 }
