@@ -1,7 +1,7 @@
 import java.sql.*;
 import javax.swing.JLabel;
 
-public class DatabaseReplicator {
+public class DatabaseReplicatorMySQLtoOracle {
 
     private Connection originConnection;
     private Connection destinationConnection;
