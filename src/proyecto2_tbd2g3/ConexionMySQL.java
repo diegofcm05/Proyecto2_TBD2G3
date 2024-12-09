@@ -23,6 +23,8 @@ public class ConexionMySQL {
         try {
             url="jdbc:mysql://"+Url+":"+Port+"/"+NombreDB;
             connection= DriverManager.getConnection(url, User, Password);
+            //prueba
+            filterGeneralLog(url, User, Password);
             conectado=true;
             JOptionPane.showMessageDialog(null, "Se ha conectado correctamente con la Base de Datos");
         } catch (SQLException e) {
