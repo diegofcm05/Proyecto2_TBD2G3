@@ -402,11 +402,11 @@ public class MainScreen extends javax.swing.JFrame {
                             .addComponent(btn_salirConexiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_pedirAyuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(radio_MYSQLDestination)
-                                .addComponent(radio_ORACLEDestination))
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(radio_ORACLEDestination)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
@@ -617,7 +617,6 @@ public class MainScreen extends javax.swing.JFrame {
         btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardar.setText("Guardar");
         btn_guardar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btn_guardar.setEnabled(false);
         btn_guardar.setFocusable(false);
         btn_guardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -630,7 +629,6 @@ public class MainScreen extends javax.swing.JFrame {
         btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("Cancelar");
         btn_cancelar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btn_cancelar.setEnabled(false);
         btn_cancelar.setFocusable(false);
         btn_cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -777,6 +775,32 @@ public class MainScreen extends javax.swing.JFrame {
                 }
             } else if (radio_MYSQLOrigin.isSelected()) {
                 //Lo mismo, pero para MySQL Workbench
+                // Crear un ArrayList para almacenar los elementos
+                List<String> elements = new ArrayList<>();
+
+                // Obtener el modelo de la JList
+                ListModel<String> model = jl_tablasDbDe.getModel();
+
+                // Iterar sobre los elementos del modelo y agregarlos al ArrayList
+                for (int i = 0; i < model.getSize(); i++) {
+                    elements.add(model.getElementAt(i));
+                }
+                
+                String completeurldest = "jdbc:mysql://"+originurl+":"+originport+"/"+origindbname;
+                
+                System.out.println("Elementos de la lista");
+                List<String> queries = new ArrayList<>();
+                
+                for (String element : elements) {
+                    System.out.println(element);
+                    queries = MC.filterGeneralLog2(completeurldest, originuser, originpass, element);
+                    
+                    System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA CLIENTE");
+                    for (String query : queries) {
+                        System.out.println(query);
+                    }
+                    
+                }
             }
         }
     }//GEN-LAST:event_btn_guardarMouseClicked
@@ -902,6 +926,12 @@ public class MainScreen extends javax.swing.JFrame {
                         listModel.addElement(tableName);
                     }
                     jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
+                    
+                    DefaultListModel<String> listModel2 = new DefaultListModel<>();
+                    jl_tablasDbDe.setModel(listModel2);
+
+                    System.out.println("Modelo de jl_tablasDbOr: " + jl_tablasDbOr.getModel().getClass());
+                    System.out.println("Modelo de jl_tablasDbDe: " + jl_tablasDbDe.getModel().getClass());
                 }
 
             } else {
@@ -918,52 +948,52 @@ public class MainScreen extends javax.swing.JFrame {
     private void btn_probarConDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConDestinoMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
 
-        if (radio_ORACLEOrigin.isSelected()) {
+        if (radio_ORACLEDestination.isSelected()) {
 
             //Oracle
-            originurl = tf_InstanciaOrigen.getText();
-            origindbname = tf_DBNameOrigen.getText();
-            originport = tf_PuertoOrigen.getText();
-            originuser = tf_UserOrigen.getText();
-            originpass = tf_PassOrigen.getText();
+            destinationurl = tf_InstanciaDestino.getText();
+            destinationname = tf_DBNameDestino.getText();
+            destinationport = tf_PuertoDestino.getText();
+            destinationuser = tf_UserDestino.getText();
+            destinationpass = tf_PassDestino.getText();
 
             OracleConexion OC = new OracleConexion();
-            Conexion1Y = OC.Conectar(originurl, originuser, originpass, originport);
+            Conexion2Y = OC.Conectar(destinationurl, destinationuser, destinationpass, destinationport);
 
             if (Conexion2Y) {
                 //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
-                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
-                lbl_resultadoConexion1.setForeground(Color.green);
-                lbl_resultadoConexion1.setVisible(true);
+                lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion2.setForeground(Color.green);
+                lbl_resultadoConexion2.setVisible(true);
 
             } else {
-                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
-                lbl_resultadoConexion1.setForeground(Color.red);
-                lbl_resultadoConexion1.setVisible(true);
+                lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion2.setForeground(Color.red);
+                lbl_resultadoConexion2.setVisible(true);
             }
 
-        } else if (radio_MYSQLOrigin.isSelected()) {
+        } else if (radio_MYSQLDestination.isSelected()) {
 
             //MYSQL
-            originurl = tf_InstanciaOrigen.getText();
-            origindbname = tf_DBNameOrigen.getText();
-            originport = tf_PuertoOrigen.getText();
-            originuser = tf_UserOrigen.getText();
-            originpass = tf_PassOrigen.getText();
+            destinationurl = tf_InstanciaDestino.getText();
+            destinationname = tf_DBNameDestino.getText();
+            destinationport = tf_PuertoDestino.getText();
+            destinationuser = tf_UserDestino.getText();
+            destinationpass = tf_PassDestino.getText();
 
             ConexionMySQL MC = new ConexionMySQL();
-            Conexion2Y = MC.conectar(originurl, originuser, originpass, originport, origindbname);
+            Conexion2Y = MC.conectar(destinationurl, destinationuser, destinationpass, destinationport, destinationname);
 
             if (Conexion2Y) {
                 //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
-                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
-                lbl_resultadoConexion1.setForeground(Color.green);
-                lbl_resultadoConexion1.setVisible(true);
+                lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion2.setForeground(Color.green);
+                lbl_resultadoConexion2.setVisible(true);
 
             } else {
-                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
-                lbl_resultadoConexion1.setForeground(Color.red);
-                lbl_resultadoConexion1.setVisible(true);
+                lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion2.setForeground(Color.red);
+                lbl_resultadoConexion2.setVisible(true);
             }
 
         } else {
