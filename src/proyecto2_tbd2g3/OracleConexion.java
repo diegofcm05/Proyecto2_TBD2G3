@@ -1,5 +1,6 @@
 package proyecto2_tbd2g3;
 
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -123,15 +124,44 @@ public class OracleConexion {
                 ddlResult = rs.getString(1);  // Obtener el DDL de Oracle
                 System.out.println("DDL de Oracle: \n" + ddlResult);
             }
-            
+
             rs.close();
             pstmt.close();
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
         return ddlResult;
+    }
+
+    public String getBitacoraCompleta() {
+        StringBuilder bitacora = new StringBuilder();
+        String sql = "SELECT us_id, tabla, operacion, dato, hora FROM bitacora";
+
+        try {
+
+            try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+                // Iterar sobre los resultados y construir el string
+                while (rs.next()) {
+                    int usId = rs.getInt("us_id");
+                    String tabla = rs.getString("tabla");
+                    String operacion = rs.getString("operacion");
+                    String dato = rs.getString("dato");
+                    String hora = rs.getString("hora");
+
+                    bitacora.append(String.format("Usuario: %d, Tabla: %s, Operación: %s, Dato: %s, Hora: %s%n",
+                            usId, tabla, operacion, dato, hora));
+                }
+            }
+
+            System.out.println("Bitácora obtenida exitosamente.");
+        } catch (SQLException e) {
+            System.err.println("Error al obtener la bitácora completa: " + e.getMessage());
+        }
+
+        return bitacora.toString();
     }
 
 }
