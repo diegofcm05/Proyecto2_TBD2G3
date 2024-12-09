@@ -404,9 +404,8 @@ public class MainScreen extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(radio_MYSQLDestination)
-                                .addComponent(radio_ORACLEDestination)))
+                            .addComponent(radio_MYSQLDestination)
+                            .addComponent(radio_ORACLEDestination))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
@@ -795,16 +794,34 @@ public class MainScreen extends javax.swing.JFrame {
                     System.out.println(element);
                     queries = MC.filterGeneralLog2(completeurldest, originuser, originpass, element);
                     
-                    System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA");
+                    System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA ");
                     for (String query : queries) {
+                        
+                        System.out.println("QUERY ANTES:");
                         System.out.println(query);
                         
+                        if (OC != null){
+                            System.out.println("La Conexion existe!");
+                        }
+                        else{
+                            System.out.println("La Conexion no existe");
+                        }
+                        
                         //Translate de Queries a la Database de Oracle
+                        query = OC.translateQuery(query);
+                        
+                        System.out.println("QUERY DESPUES");
+                        System.out.println(query);
                         
                         
-                        
-                        
-                        
+                        //EJECUCION INDIVIDUAL DE LAS QUERIES
+                        if (OC.ejecutarQuery(query)){
+                            System.out.println("QUERY EJECUTADA EXITOSAMENTE EN LA BASE DE DATOS DESTINO!");
+                        }
+                        else{
+                            System.out.println("QUERY DA UN ERROR!!");
+                        }
+
                     }
                     
                     
@@ -968,7 +985,7 @@ public class MainScreen extends javax.swing.JFrame {
             destinationuser = tf_UserDestino.getText();
             destinationpass = tf_PassDestino.getText();
 
-            OracleConexion OC = new OracleConexion();
+            OC = new OracleConexion();
             Conexion2Y = OC.Conectar(destinationurl, destinationuser, destinationpass, destinationport);
 
             if (Conexion2Y) {
@@ -992,7 +1009,7 @@ public class MainScreen extends javax.swing.JFrame {
             destinationuser = tf_UserDestino.getText();
             destinationpass = tf_PassDestino.getText();
 
-            ConexionMySQL MC = new ConexionMySQL();
+            MC = new ConexionMySQL();
             Conexion2Y = MC.conectar(destinationurl, destinationuser, destinationpass, destinationport, destinationname);
 
             if (Conexion2Y) {
