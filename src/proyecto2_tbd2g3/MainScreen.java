@@ -10,31 +10,31 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import oracle.jdbc.internal.ACProxyable;
+import javax.swing.*;
+import javax.swing.event.*;
 
 /**
  *
  * @author dfcm9
  */
 public class MainScreen extends javax.swing.JFrame {
-    
+
     boolean Conexion1Y = false; //Variable que indica si la conexion de la base de datos origen fue exitosa
     boolean Conexion2Y = false; //Variable que indica si la conexion de la base de datos destino fue exitosa
-    
+
     //Credenciales base de datos origen
     String originurl = "";
     String origindbname = "";
     String originport = "";
     String originuser = "";
     String originpass = "";
-    
-    
+
     //Credenciales base de datos destino
     String destinationurl = "";
     String destinationname = "";
     String destinationport = "";
     String destinationuser = "";
     String destinationpass = "";
-    
 
     /**
      * Creates new form MainScreen
@@ -43,7 +43,7 @@ public class MainScreen extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
+
     }
 
     /**
@@ -759,10 +759,10 @@ public class MainScreen extends javax.swing.JFrame {
     private void btn_cambiarDbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cambiarDbMouseClicked
         lbl_resultadoConexion1.setText("");
         lbl_resultadoConexion2.setText("");
-        
+
         this.setVisible(false);
         AbrirVentana(JD_ConexionesDB);
-        
+
     }//GEN-LAST:event_btn_cambiarDbMouseClicked
 
     private void btn_salirConexionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirConexionesMouseClicked
@@ -779,60 +779,69 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_VolverAyudaMouseClicked
 
     private void btn_guardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarMouseClicked
-        if (!btn_guardar.isEnabled()){
+        if (!btn_guardar.isEnabled()) {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
+        } else {
             //Lo que haria cuando estuviera habilitado.
         }
     }//GEN-LAST:event_btn_guardarMouseClicked
 
     private void btn_cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cancelarMouseClicked
-        if (!btn_cancelar.isEnabled()){
+        if (!btn_cancelar.isEnabled()) {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
+        } else {
             //Lo que haria cuando estuviera habilitado.
         }
     }//GEN-LAST:event_btn_cancelarMouseClicked
 
     private void btn_moveOrToDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moveOrToDeMouseClicked
-        if (!btn_moveOrToDe.isEnabled()){
+        if (!btn_moveOrToDe.isEnabled()) {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
-            //Lo que haria cuando estuviera habilitado.
+        } else {
+            String selectedItem = jl_tablasDbOr.getSelectedValue();
+            if (selectedItem != null) {
+                DefaultListModel<String> modelDestino = (DefaultListModel<String>) jl_tablasDbDe.getModel();
+                modelDestino.addElement(selectedItem);
+                DefaultListModel<String> modelOrigen = (DefaultListModel<String>) jl_tablasDbOr.getModel();
+                modelOrigen.removeElement(selectedItem);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado nada para mover");
+            }
         }
     }//GEN-LAST:event_btn_moveOrToDeMouseClicked
 
     private void btn_moveDeToOrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moveDeToOrMouseClicked
-        if (!btn_moveDeToOr.isEnabled()){
+        if (!btn_moveDeToOr.isEnabled()) {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
-        }
-        else{
-            //Lo que haria cuando estuviera habilitado.
+        } else {
+            String selectedItem = jl_tablasDbDe.getSelectedValue();
+            if (selectedItem != null) {
+                DefaultListModel<String> modelOrigen = (DefaultListModel<String>) jl_tablasDbOr.getModel();
+                modelOrigen.addElement(selectedItem);
+                DefaultListModel<String> modelDestino = (DefaultListModel<String>) jl_tablasDbDe.getModel();
+                modelDestino.removeElement(selectedItem);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado nada para mover");
+            }
         }
     }//GEN-LAST:event_btn_moveDeToOrMouseClicked
 
     private void btn_probarConOrigenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConOrigenMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        
-        
-        if (radio_ORACLEOrigin.isSelected()){
-            
-            
-             //Oracle
+
+        if (radio_ORACLEOrigin.isSelected()) {
+
+            //Oracle
             originurl = tf_InstanciaOrigen.getText();
             origindbname = tf_DBNameOrigen.getText();
             originport = tf_PuertoOrigen.getText();
             originuser = tf_UserOrigen.getText();
             originpass = tf_PassOrigen.getText();
 
-
             OracleConexion OC = new OracleConexion();
             Conexion1Y = OC.Conectar(originurl, originuser, originpass, originport);
 
-            if (Conexion1Y){
+            if (Conexion1Y) {
                 //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
                 lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
                 lbl_resultadoConexion1.setForeground(Color.green);
@@ -843,8 +852,8 @@ public class MainScreen extends javax.swing.JFrame {
 
                 // Verificar si se obtuvieron tablas
                 if (tableNames.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No se encontraron tablas en la base de datos.", 
-                                                  "Información", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No se encontraron tablas en la base de datos.",
+                            "Información", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     // Convertir la lista a un array y asignarlo a la JList
                     DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -854,15 +863,13 @@ public class MainScreen extends javax.swing.JFrame {
                     jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
                 }
 
-            }
-            else{
+            } else {
                 lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
                 lbl_resultadoConexion1.setForeground(Color.red);
                 lbl_resultadoConexion1.setVisible(true);
             }
-            
-        }
-        else if (radio_MYSQLOrigin.isSelected()){
+
+        } else if (radio_MYSQLOrigin.isSelected()) {
 
             //MYSQL
             originurl = tf_InstanciaOrigen.getText();
@@ -870,11 +877,11 @@ public class MainScreen extends javax.swing.JFrame {
             originport = tf_PuertoOrigen.getText();
             originuser = tf_UserOrigen.getText();
             originpass = tf_PassOrigen.getText();
-            
-            ConexionMySQL MC = new ConexionMySQL();
-            Conexion1Y = MC.conectar(originurl, originuser, originpass, originport,origindbname);
 
-            if (Conexion1Y){
+            ConexionMySQL MC = new ConexionMySQL();
+            Conexion1Y = MC.conectar(originurl, originuser, originpass, originport, origindbname);
+
+            if (Conexion1Y) {
                 //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
                 lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
                 lbl_resultadoConexion1.setForeground(Color.green);
@@ -885,8 +892,8 @@ public class MainScreen extends javax.swing.JFrame {
 
                 // Verificar si se obtuvieron tablas
                 if (tableNames.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No se encontraron tablas en la base de datos.", 
-                                                  "Información", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No se encontraron tablas en la base de datos.",
+                            "Información", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     // Convertir la lista a un array y asignarlo a la JList
                     DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -896,31 +903,27 @@ public class MainScreen extends javax.swing.JFrame {
                     jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
                 }
 
-            }
-            else{
+            } else {
                 lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
                 lbl_resultadoConexion1.setForeground(Color.red);
                 lbl_resultadoConexion1.setVisible(true);
             }
-            
-            
-        }
-        else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "Por favor, primero seleccione (arriba) si su base esta en Oracle o MYSQL");
         }
     }//GEN-LAST:event_btn_probarConOrigenMouseClicked
 
     private void btn_probarConDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConDestinoMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        ConexionMySQL connect= new ConexionMySQL();
-        Conexion1Y=connect.conectar(tf_InstanciaDestino.getText(), tf_UserDestino.getText(), tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText());
-        if(Conexion1Y){
+        ConexionMySQL connect = new ConexionMySQL();
+        Conexion1Y = connect.conectar(tf_InstanciaDestino.getText(), tf_UserDestino.getText(), tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText());
+        if (Conexion1Y) {
             lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
             lbl_resultadoConexion2.setForeground(Color.green);
             lbl_resultadoConexion2.setVisible(true);
-        }
-        else{
-            
+        } else {
+
             lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
             lbl_resultadoConexion2.setForeground(Color.red);
         }
@@ -957,11 +960,11 @@ public class MainScreen extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainScreen().setVisible(true);
-                
+
             }
         });
     }
-    
+
     public void AbrirVentana(JDialog ventana) {
         ventana.pack();
         ventana.setModal(false);
