@@ -795,10 +795,21 @@ public class MainScreen extends javax.swing.JFrame {
                     System.out.println(element);
                     queries = MC.filterGeneralLog2(completeurldest, originuser, originpass, element);
                     
-                    System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA CLIENTE");
+                    System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA");
                     for (String query : queries) {
                         System.out.println(query);
+                        
+                        //Translate de Queries a la Database de Oracle
+                        
+                        
+                        
+                        
+                        
                     }
+                    
+                    
+                    
+                    
                     
                 }
             }
