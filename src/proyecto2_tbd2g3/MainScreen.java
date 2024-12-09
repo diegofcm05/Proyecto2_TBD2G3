@@ -107,12 +107,10 @@ public class MainScreen extends javax.swing.JFrame {
         btn_moveOrToDe = new javax.swing.JButton();
         btn_moveDeToOr = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_tablasDbOr = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_tablasDbDe = new javax.swing.JList<>();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btn_cambiarDb = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
@@ -583,11 +581,6 @@ public class MainScreen extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Base de Datos Origen");
 
-        jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Base de Datos Destino");
-
         jl_tablasDbOr.setBackground(new java.awt.Color(70, 70, 70));
         jl_tablasDbOr.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jl_tablasDbOr.setForeground(new java.awt.Color(255, 255, 255));
@@ -597,12 +590,6 @@ public class MainScreen extends javax.swing.JFrame {
         jl_tablasDbDe.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jl_tablasDbDe.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportView(jl_tablasDbDe);
-
-        jLabel4.setBackground(new java.awt.Color(0, 102, 153));
-        jLabel4.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 153, 204));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("DestinationDB");
 
         jLabel5.setBackground(new java.awt.Color(0, 102, 153));
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
@@ -651,12 +638,12 @@ public class MainScreen extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Tablas Disponibles");
+        jLabel6.setText("Tablas Replicadas");
 
         jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Tablas Disponibles");
+        jLabel7.setText("Tablas Sin Replicar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -682,18 +669,13 @@ public class MainScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(80, 80, 80))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btn_cambiarDb, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -725,13 +707,9 @@ public class MainScreen extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -920,16 +898,59 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btn_probarConDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConDestinoMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        ConexionMySQL connect = new ConexionMySQL();
-        Conexion1Y = connect.conectar(tf_InstanciaDestino.getText(), tf_UserDestino.getText(), tf_PassDestino.getText(), tf_PuertoDestino.getText(), tf_DBNameDestino.getText());
-        if (Conexion1Y) {
-            lbl_resultadoConexion2.setText("¡Conexion Exitosa!");
-            lbl_resultadoConexion2.setForeground(Color.green);
-            lbl_resultadoConexion2.setVisible(true);
-        } else {
 
-            lbl_resultadoConexion2.setText("¡Ha ocurrido un error!");
-            lbl_resultadoConexion2.setForeground(Color.red);
+        if (radio_ORACLEOrigin.isSelected()) {
+
+            //Oracle
+            originurl = tf_InstanciaOrigen.getText();
+            origindbname = tf_DBNameOrigen.getText();
+            originport = tf_PuertoOrigen.getText();
+            originuser = tf_UserOrigen.getText();
+            originpass = tf_PassOrigen.getText();
+
+            OracleConexion OC = new OracleConexion();
+            Conexion1Y = OC.Conectar(originurl, originuser, originpass, originport);
+
+            if (Conexion2Y) {
+                //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
+                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion1.setForeground(Color.green);
+                lbl_resultadoConexion1.setVisible(true);
+
+                
+
+            } else {
+                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion1.setForeground(Color.red);
+                lbl_resultadoConexion1.setVisible(true);
+            }
+
+        } else if (radio_MYSQLOrigin.isSelected()) {
+
+            //MYSQL
+            originurl = tf_InstanciaOrigen.getText();
+            origindbname = tf_DBNameOrigen.getText();
+            originport = tf_PuertoOrigen.getText();
+            originuser = tf_UserOrigen.getText();
+            originpass = tf_PassOrigen.getText();
+
+            ConexionMySQL MC = new ConexionMySQL();
+            Conexion2Y = MC.conectar(originurl, originuser, originpass, originport, origindbname);
+
+            if (Conexion2Y) {
+                //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
+                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion1.setForeground(Color.green);
+                lbl_resultadoConexion1.setVisible(true);
+
+            } else {
+                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion1.setForeground(Color.red);
+                lbl_resultadoConexion1.setVisible(true);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, primero seleccione (arriba) si su base esta en Oracle o MYSQL");
         }
     }//GEN-LAST:event_btn_probarConDestinoMouseClicked
 
@@ -1011,8 +1032,6 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
