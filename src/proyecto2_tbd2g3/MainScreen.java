@@ -5,8 +5,11 @@
 package proyecto2_tbd2g3;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -24,6 +27,7 @@ public class MainScreen extends javax.swing.JFrame {
     boolean Conexion2Y = false; //Variable que indica si la conexion de la base de datos destino fue exitosa
     OracleConexion OC;
     ConexionMySQL MC;
+    DatabaseReplicatorOracleToMySQL oc_mc;
 
     //Credenciales base de datos origen
     String originurl = "";
@@ -765,12 +769,18 @@ public class MainScreen extends javax.swing.JFrame {
             //Validación de que si la tabla ya existe va aqui
             if (radio_ORACLEOrigin.isSelected()) {
                 for (String string : lista) {
+                    
                     String ddlResult = OC.Ingreso(string);
                     // Adaptar el DDL para MySQL
                     ddlResult = MC.adaptDDLForMySQL(ddlResult);  // Adaptamos el DDL de Oracle a MySQL
                     System.out.println("DDL adaptado para MySQL: \n" + ddlResult);
                     // Ejecutar el DDL en MySQL
                     MC.createTableInMySQL(ddlResult);
+                    try {
+                        oc_mc.replicateOriginToDestination();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             } else if (radio_MYSQLOrigin.isSelected()) {
                 //Lo mismo, pero para MySQL Workbench
@@ -785,14 +795,12 @@ public class MainScreen extends javax.swing.JFrame {
                     elements.add(model.getElementAt(i));
                 }
                 
-                String completeurldest = "jdbc:mysql://"+originurl+":"+originport+"/"+origindbname;
-                
                 System.out.println("Elementos de la lista");
                 List<String> queries = new ArrayList<>();
                 
                 for (String element : elements) {
                     System.out.println(element);
-                    queries = MC.filterGeneralLog2(completeurldest, originuser, originpass, element);
+                    queries = MC.filterGeneralLog2(originurl, originuser, originpass, element);
                     
                     System.out.println("TODAS LAS QUERIES PERTENECIENTES A LA TABLA ");
                     for (String query : queries) {
@@ -811,8 +819,7 @@ public class MainScreen extends javax.swing.JFrame {
                         query = OC.translateQuery(query);
                         
                         System.out.println("QUERY DESPUES");
-                        System.out.println(query);
-                        
+                        System.out.println(query);                        
                         
                         //EJECUCION INDIVIDUAL DE LAS QUERIES
                         if (OC.ejecutarQuery(query)){
@@ -822,12 +829,7 @@ public class MainScreen extends javax.swing.JFrame {
                             System.out.println("QUERY DA UN ERROR!!");
                         }
 
-                    }
-                    
-                    
-                    
-                    
-                    
+                    }   
                 }
             }
         }
@@ -838,6 +840,11 @@ public class MainScreen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Boton Deshabilitado.\nConecte dos bases de datos primero.");
         } else {
             //Lo que haria cuando estuviera habilitado.
+            if(JOptionPane.showConfirmDialog(this, "¿Seguro?", "CANCELAR", JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+                DefaultListModel<String> modelDestino = (DefaultListModel<String>) jl_tablasDbDe.getModel();
+                modelDestino.clear();
+            }
+            
         }
     }//GEN-LAST:event_btn_cancelarMouseClicked
 

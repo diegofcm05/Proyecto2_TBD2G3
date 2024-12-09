@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
  */
 public class OracleConexion {
 
-    private String ogurl = "jdbc:oracle:thin:@localhost:1521:XE"; // Reemplaza con tu URL de conexión
+    private String ogurl = "jdbc:oracle:thin:@//oracledb.cv8gq8u2msgm.us-east-1.rds.amazonaws.com:1521/orcl"; // Reemplaza con tu URL de conexión
     private String oguser = "system"; // Reemplaza con tu usuario
     private String ogpassword = "18273645"; // Reemplaza con tu contraseña
     private String ogport = "1521";
@@ -29,14 +29,12 @@ public class OracleConexion {
         boolean success = false;
         try {
 
-            ogurl = url;
+            //ogurl = "jdbc:oracle:thin:@//oracledb.cv8gq8u2msgm.us-east-1.rds.amazonaws.com:1521/orcl";
             oguser = user;
             ogpassword = password;
             ogport = port;
-
-            String fullurl = url + ":" + port + ":" + "XE";
             // Conexión a la base de datos
-            connection = DriverManager.getConnection(fullurl, user, password);
+            connection = DriverManager.getConnection(url, user, password);
             success = true;
             System.out.println("Conexión exitosa a la base de datos Oracle!");
 
@@ -214,7 +212,7 @@ public class OracleConexion {
     
     public boolean ejecutarQuery(String query) {
     boolean success = false;
-    try (Connection conn = DriverManager.getConnection(ogurl, oguser, ogpassword);
+    try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@oracledb.cv8gq8u2msgm.us-east-1.rds.amazonaws.com:1521:orcl", oguser, ogpassword);
          Statement stmt = conn.createStatement()) {
         
         // Ejecutar la consulta
@@ -231,5 +229,6 @@ public class OracleConexion {
     
     
     
+
 
 }

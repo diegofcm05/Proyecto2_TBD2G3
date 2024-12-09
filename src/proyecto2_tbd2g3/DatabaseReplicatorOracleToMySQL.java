@@ -1,3 +1,5 @@
+package proyecto2_tbd2g3;
+
 import java.sql.*;
 import javax.swing.JLabel;
 
@@ -8,14 +10,14 @@ public class DatabaseReplicatorOracleToMySQL {
 
     // Conexión a la base de datos de origen (Oracle)
     public void connectToOrigin(String host, String user, String pass, String port, String dbName) throws SQLException {
-        String url = "jdbc:oracle:thin:@" + host + ":" + port + ":" + dbName;
+        String url = "jdbc:oracle:thin:@oracledb.cv8gq8u2msgm.us-east-1.rds.amazonaws.com:1521:orcl";
         originConnection = DriverManager.getConnection(url, user, pass);
         System.out.println("Conexión establecida con la base de datos Oracle de origen.");
     }
 
     // Conexión a la base de datos de destino (MySQL)
     public void connectToDestination(String host, String user, String pass, String port, String dbName) throws SQLException {
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+        String url = "jdbc:mysql://tbd2g3.c1ci2a0qwno2.us-east-1.rds.amazonaws.com:3306/tbd2g3";
         destinationConnection = DriverManager.getConnection(url, user, pass);
         System.out.println("Conexión establecida con la base de datos MySQL de destino.");
     }
@@ -31,7 +33,7 @@ public class DatabaseReplicatorOracleToMySQL {
         ResultSet resultSet = null;
 
         try {
-            sourceStmt = source.createStatement();
+            sourceStmt = originConnection.createStatement();
             resultSet = sourceStmt.executeQuery("SELECT * FROM " + bitacoraTable);
 
             while (resultSet.next()) {
@@ -42,8 +44,12 @@ public class DatabaseReplicatorOracleToMySQL {
                 processOperation(target, table, operation, data);
             }
         } finally {
-            if (resultSet != null) resultSet.close();
-            if (sourceStmt != null) sourceStmt.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (sourceStmt != null) {
+                sourceStmt.close();
+            }
         }
     }
 
@@ -52,26 +58,26 @@ public class DatabaseReplicatorOracleToMySQL {
         Statement targetStmt = null;
 
         try {
+            // Convierte nombres de tabla y columnas para que sean compatibles con MySQL
+            table = table.replace("\"", ""); // Elimina comillas dobles
+            data = data.replace("\"", ""); // Elimina comillas dobles en los datos
+
             targetStmt = target.createStatement();
 
             switch (operation.toUpperCase()) {
                 case "INSERT":
-                    // Suponiendo que `data` contiene una lista de valores separados por comas
                     String insertQuery = "INSERT INTO " + table + " VALUES (" + data + ")";
                     targetStmt.executeUpdate(insertQuery);
                     System.out.println("Insertado en " + table + ": " + data);
                     break;
 
                 case "UPDATE":
-                    // Suponiendo que `data` contiene pares clave=valor separados por comas
-                    // y que la clave primaria está al final (p.ej., "campo1=valor1, campo2=valor2 WHERE id=1")
                     String updateQuery = "UPDATE " + table + " SET " + data;
                     targetStmt.executeUpdate(updateQuery);
                     System.out.println("Actualizado en " + table + ": " + data);
                     break;
 
                 case "DELETE":
-                    // Suponiendo que `data` contiene una condición WHERE (p.ej., "id=1")
                     String deleteQuery = "DELETE FROM " + table + " WHERE " + data;
                     targetStmt.executeUpdate(deleteQuery);
                     System.out.println("Eliminado en " + table + " con condición: " + data);
@@ -82,7 +88,9 @@ public class DatabaseReplicatorOracleToMySQL {
                     break;
             }
         } finally {
-            if (targetStmt != null) targetStmt.close();
+            if (targetStmt != null) {
+                targetStmt.close();
+            }
         }
     }
 

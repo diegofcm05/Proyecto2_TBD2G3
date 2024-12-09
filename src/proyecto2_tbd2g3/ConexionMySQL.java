@@ -21,7 +21,7 @@ public class ConexionMySQL {
     public static boolean conectar(String Url,String User,String Password,String Port,String NombreDB){
         boolean conectado=false;
         try {
-            url="jdbc:mysql://"+Url+":"+Port+"/"+NombreDB;
+            url=Url;
             connection= DriverManager.getConnection(url, User, Password);
             //prueba
             filterGeneralLog(url, User, Password);
