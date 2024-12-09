@@ -5,6 +5,8 @@
 package proyecto2_tbd2g3;
 
 import java.awt.Color;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -16,6 +18,21 @@ public class MainScreen extends javax.swing.JFrame {
     
     boolean Conexion1Y = false; //Variable que indica si la conexion de la base de datos origen fue exitosa
     boolean Conexion2Y = false; //Variable que indica si la conexion de la base de datos destino fue exitosa
+    
+    //Credenciales base de datos origen
+    String originurl = "";
+    String origindbname = "";
+    String originport = "";
+    String originuser = "";
+    String originpass = "";
+    
+    
+    //Credenciales base de datos destino
+    String destinationurl = "";
+    String destinationname = "";
+    String destinationport = "";
+    String destinationuser = "";
+    String destinationpass = "";
     
 
     /**
@@ -68,6 +85,10 @@ public class MainScreen extends javax.swing.JFrame {
         lbl_resultadoConexion2 = new javax.swing.JLabel();
         btn_salirConexiones = new javax.swing.JButton();
         btn_pedirAyuda = new javax.swing.JButton();
+        radio_MYSQLOrigin = new javax.swing.JRadioButton();
+        radio_ORACLEOrigin = new javax.swing.JRadioButton();
+        radio_MYSQLDestination = new javax.swing.JRadioButton();
+        radio_ORACLEDestination = new javax.swing.JRadioButton();
         JD_Ayuda = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -78,6 +99,8 @@ public class MainScreen extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         btn_VolverAyuda = new javax.swing.JButton();
+        botonesOrigen = new javax.swing.ButtonGroup();
+        botonesDestino = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btn_moveOrToDe = new javax.swing.JButton();
@@ -251,6 +274,30 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
+        radio_MYSQLOrigin.setBackground(new java.awt.Color(51, 51, 51));
+        botonesOrigen.add(radio_MYSQLOrigin);
+        radio_MYSQLOrigin.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 12)); // NOI18N
+        radio_MYSQLOrigin.setForeground(new java.awt.Color(255, 255, 255));
+        radio_MYSQLOrigin.setText("MYSQL");
+
+        radio_ORACLEOrigin.setBackground(new java.awt.Color(51, 51, 51));
+        botonesOrigen.add(radio_ORACLEOrigin);
+        radio_ORACLEOrigin.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 12)); // NOI18N
+        radio_ORACLEOrigin.setForeground(new java.awt.Color(255, 255, 255));
+        radio_ORACLEOrigin.setText("ORACLE");
+
+        radio_MYSQLDestination.setBackground(new java.awt.Color(51, 51, 51));
+        botonesDestino.add(radio_MYSQLDestination);
+        radio_MYSQLDestination.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 12)); // NOI18N
+        radio_MYSQLDestination.setForeground(new java.awt.Color(255, 255, 255));
+        radio_MYSQLDestination.setText("MYSQL");
+
+        radio_ORACLEDestination.setBackground(new java.awt.Color(51, 51, 51));
+        botonesDestino.add(radio_ORACLEDestination);
+        radio_ORACLEDestination.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 12)); // NOI18N
+        radio_ORACLEDestination.setForeground(new java.awt.Color(255, 255, 255));
+        radio_ORACLEDestination.setText("ORACLE");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -258,7 +305,7 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                 .addComponent(btn_pedirAyuda, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(btn_salirConexiones, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,38 +318,50 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGap(137, 137, 137))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbl_resultadoConexion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lbl_resultadoConexion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(tf_PuertoOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                            .addGap(199, 199, 199))
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_InstanciaOrigen)
+                        .addComponent(tf_DBNameOrigen)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_UserOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                        .addComponent(tf_PassOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(tf_PuertoOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                        .addGap(199, 199, 199))
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_InstanciaOrigen)
-                    .addComponent(tf_DBNameOrigen)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_UserOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                    .addComponent(tf_PassOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radio_MYSQLOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radio_ORACLEOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(tf_PuertoDestino)
+                            .addGap(199, 199, 199))
+                        .addComponent(tf_InstanciaDestino)
+                        .addComponent(tf_DBNameDestino)
+                        .addComponent(tf_UserDestino)
+                        .addComponent(tf_PassDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                        .addComponent(lbl_resultadoConexion2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(tf_PuertoDestino)
-                        .addGap(199, 199, 199))
-                    .addComponent(tf_InstanciaDestino)
-                    .addComponent(tf_DBNameDestino)
-                    .addComponent(tf_UserDestino)
-                    .addComponent(tf_PassDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                    .addComponent(lbl_resultadoConexion2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69))
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(radio_MYSQLDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radio_ORACLEDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,7 +371,10 @@ public class MainScreen extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(radio_MYSQLOrigin)
+                            .addComponent(radio_ORACLEOrigin))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
@@ -338,7 +400,11 @@ public class MainScreen extends javax.swing.JFrame {
                             .addComponent(btn_salirConexiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_pedirAyuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(radio_MYSQLDestination)
+                                .addComponent(radio_ORACLEDestination)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
@@ -748,15 +814,75 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btn_probarConOrigenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_probarConOrigenMouseClicked
         // NOTA: HAY UN LABEL QUE INDICA SI LA CONEXION FUE EXITOSA O NO. FAVOR CAMBIARLO EN BASE AL RESULTADO
-        ConexionMySQL connect= new ConexionMySQL();
-        if(connect.conectar(tf_InstanciaOrigen.getText(), tf_UserOrigen.getText(), tf_PassOrigen.getText(), tf_PuertoOrigen.getText(), tf_DBNameOrigen.getText())==null){
-            lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
-            lbl_resultadoConexion1.setForeground(Color.red);
+        
+        
+        if (radio_ORACLEOrigin.isSelected()){
+            
+            
+             //Oracle
+            originurl = tf_InstanciaOrigen.getText();
+            origindbname = tf_DBNameOrigen.getText();
+            originport = tf_PuertoOrigen.getText();
+            originuser = tf_UserOrigen.getText();
+            originpass = tf_PassOrigen.getText();
+
+
+            OracleConexion OC = new OracleConexion();
+            Conexion1Y = OC.Conectar(originurl, originuser, originpass, originport);
+
+            if (Conexion1Y){
+                //Logica para determinar que la conexion fue exitosa, pone los nombres de las tablas
+                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion1.setForeground(Color.green);
+                lbl_resultadoConexion1.setVisible(true);
+
+                // Obtener nombres de tablas
+                List<String> tableNames = OC.getNombresTabla(); // Llama al método que obtendrá los nombres de las tablas
+
+                // Verificar si se obtuvieron tablas
+                if (tableNames.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No se encontraron tablas en la base de datos.", 
+                                                  "Información", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Convertir la lista a un array y asignarlo a la JList
+                    DefaultListModel<String> listModel = new DefaultListModel<>();
+                    for (String tableName : tableNames) {
+                        listModel.addElement(tableName);
+                    }
+                    jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
+                }
+
+            }
+            else{
+                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion1.setForeground(Color.red);
+                lbl_resultadoConexion1.setVisible(true);
+            }
+            
+        }
+        else if (radio_MYSQLOrigin.isSelected()){
+
+            //MYSQL
+            originurl = tf_InstanciaOrigen.getText();
+            origindbname = tf_DBNameOrigen.getText();
+            originport = tf_PuertoOrigen.getText();
+            originuser = tf_UserOrigen.getText();
+            originpass = tf_PassOrigen.getText();
+            
+            ConexionMySQL connect= new ConexionMySQL();
+            if(connect.conectar(tf_InstanciaOrigen.getText(), tf_UserOrigen.getText(), tf_PassOrigen.getText(), tf_PuertoOrigen.getText(), tf_DBNameOrigen.getText())==null){
+                lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
+                lbl_resultadoConexion1.setForeground(Color.red);
+            }
+            else{
+                lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
+                lbl_resultadoConexion1.setForeground(Color.green);
+                lbl_resultadoConexion1.setVisible(true);
+            }
+            
         }
         else{
-            lbl_resultadoConexion1.setText("¡Conexion Exitosa!");
-            lbl_resultadoConexion1.setForeground(Color.green);
-            lbl_resultadoConexion1.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Por favor, primero seleccione (arriba) si su base esta en Oracle o MYSQL");
         }
     }//GEN-LAST:event_btn_probarConOrigenMouseClicked
 
@@ -820,6 +946,8 @@ public class MainScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog JD_Ayuda;
     private javax.swing.JDialog JD_ConexionesDB;
+    private javax.swing.ButtonGroup botonesDestino;
+    private javax.swing.ButtonGroup botonesOrigen;
     private javax.swing.JButton btn_VolverAyuda;
     private javax.swing.JButton btn_cambiarDb;
     private javax.swing.JButton btn_cancelar;
@@ -866,6 +994,10 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_tablasDbOr;
     private javax.swing.JLabel lbl_resultadoConexion1;
     private javax.swing.JLabel lbl_resultadoConexion2;
+    private javax.swing.JRadioButton radio_MYSQLDestination;
+    private javax.swing.JRadioButton radio_MYSQLOrigin;
+    private javax.swing.JRadioButton radio_ORACLEDestination;
+    private javax.swing.JRadioButton radio_ORACLEOrigin;
     private javax.swing.JTextField tf_DBNameDestino;
     private javax.swing.JTextField tf_DBNameOrigen;
     private javax.swing.JTextField tf_InstanciaDestino;
