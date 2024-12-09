@@ -405,8 +405,7 @@ public class MainScreen extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(radio_MYSQLDestination)
                                 .addComponent(radio_ORACLEDestination))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
@@ -560,7 +559,6 @@ public class MainScreen extends javax.swing.JFrame {
         btn_moveOrToDe.setForeground(new java.awt.Color(255, 255, 255));
         btn_moveOrToDe.setText("> > > >");
         btn_moveOrToDe.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btn_moveOrToDe.setEnabled(false);
         btn_moveOrToDe.setFocusable(false);
         btn_moveOrToDe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -573,7 +571,6 @@ public class MainScreen extends javax.swing.JFrame {
         btn_moveDeToOr.setForeground(new java.awt.Color(255, 255, 255));
         btn_moveDeToOr.setText("< < < <");
         btn_moveDeToOr.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btn_moveDeToOr.setEnabled(false);
         btn_moveDeToOr.setFocusable(false);
         btn_moveDeToOr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -862,6 +859,13 @@ public class MainScreen extends javax.swing.JFrame {
                     }
                     jl_tablasDbOr.setModel(listModel); // Asignar el modelo a la JList
                 }
+                
+                DefaultListModel<String> listModel2 = new DefaultListModel<>();
+                jl_tablasDbDe.setModel(listModel2);
+                
+                
+                System.out.println("Modelo de jl_tablasDbOr: " + jl_tablasDbOr.getModel().getClass());
+                System.out.println("Modelo de jl_tablasDbDe: " + jl_tablasDbDe.getModel().getClass());
 
             } else {
                 lbl_resultadoConexion1.setText("¡Ha ocurrido un error!");
