@@ -112,6 +112,42 @@ public class ConexionMySQL {
         return bien && good;
     }
     
+    
+    public static List<String> filterGeneralLog2(String jdbcUrl, String username, String password, String tableName) {
+        String query = "SELECT argument " +
+                       "FROM mysql.general_log " +
+                       "WHERE command_type = 'Query' " +
+                       "AND argument LIKE ? " + // Filtro por tabla
+                       "ORDER BY event_time ASC";
+        
+        List<String> queries = new ArrayList<>();
+        
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            // Configurar el parámetro para buscar la tabla
+            stmt.setString(1, "%" + tableName + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String argument = rs.getString("argument");
+
+                    // Validar si no es una consulta interna que queremos ignorar
+                    if (isInternalQuery(argument)) {
+                        queries.add(argument); // Agregar al ArrayList
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return queries; // Retornar las consultas relacionadas
+    }
+    
+    
+    
+    
     // Método para adaptar el DDL de Oracle a MySQL
     public String adaptDDLForMySQL(String ddl) {
         // Aquí se pueden agregar más adaptaciones si es necesario
